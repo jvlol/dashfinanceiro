@@ -10,9 +10,15 @@ def configurar_locale():
     try: locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
     except: locale.setlocale(locale.LC_ALL, '')
 
+# VERSÃO NOVA (ROBUSTA E UNIVERSAL)
 def formatar_moeda(valor):
-    try: return locale.currency(valor, grouping=True, symbol='R$')
-    except (TypeError, ValueError): return "N/A"
+    try:
+        # Garante que o valor é numérico antes de formatar
+        valor_numerico = float(valor)
+        # Formata para duas casas decimais, com separador de milhar e de decimal
+        return f"R$ {valor_numerico:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    except (ValueError, TypeError):
+        return "N/A" # Retorna N/A se o valor não for um número
 
 # A função de carga permanece a mesma (já está otimizada)
 @st.cache_data

@@ -13,10 +13,15 @@ def configurar_locale():
     except:
         locale.setlocale(locale.LC_ALL, '')
 
+# VERSÃO NOVA (ROBUSTA E UNIVERSAL)
 def formatar_moeda(valor):
     try:
-        return locale.currency(valor, grouping=True, symbol='R$')
-    except (TypeError, ValueError): return "N/A"
+        # Garante que o valor é numérico antes de formatar
+        valor_numerico = float(valor)
+        # Formata para duas casas decimais, com separador de milhar e de decimal
+        return f"R$ {valor_numerico:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    except (ValueError, TypeError):
+        return "N/A" # Retorna N/A se o valor não for um número
 
 # Função que busca por palavras chave comuns e retorna um df com resultados
 def analisar_palavras_chave(df):
